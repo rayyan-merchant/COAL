@@ -19,8 +19,8 @@ main PROC
 	mov esi, offset arr
 	
   search_loop:
-		mov ebx, [esi]
-		cmp eax, ebx
+		movzx ebx, word ptr [esi] 
+		cmp ax, bx
 		je found
 		add esi, 2
 		loop search_loop
