@@ -1,51 +1,30 @@
-include irvine32.inc
+INCLUDE Irvine32.inc
 
 .data
-	nums DWORD 4 DUP(?)
-	prompt BYTE "Enter a number: ", 0
-	end1 BYTE "All nums are equal", 0
-	end2 BYTE "Nums arent equal", 0
-
+    ;
 .code
+
+ThreeProd PROC
+    push ebp
+    mov ebp, esp
+
+    mov eax, [ebp + 8]
+    mov ebx, [ebp + 12]
+    mul ebx
+    mov ebx, [ebp + 16]
+    mul ebx
+    call WriteDec
+
+    pop ebp
+    ret 16
+ThreeProd ENDP
+
 main PROC
-	mov ecx, 0
-	mov ebx, 4
-	mov edx, offset prompt
-	mov esi, offset nums
-	
-  input_loop:
-		inc ecx
-		call writestring
-		call readint
-		
-    mov [esi], eax
-		add esi, 4
-		cmp ecx, ebx
-		jl input_loop
-	  
-  mov esi, offset nums
-	mov eax, [esi]
-	cmp eax, [esi+4]
-	jne not_equal
-	
-  add esi, 4
-	mov eax, [esi]
-	cmp eax, [esi+4]
-	jne not_equal
-	
-  add esi, 4
-	mov eax, [esi]
-	cmp eax, [esi+4]
-	jne not_equal
-	
-  mov edx, offset end1
-	call writestring
-	jmp end_code
-	
-  not_equal:
-		mov edx, offset end2
-		call writestring
-	
-  end_code:
-  main endp
-end main
+    push 4
+    push 3
+    push 2
+    call ThreeProd
+
+    exit
+main ENDP
+END main
